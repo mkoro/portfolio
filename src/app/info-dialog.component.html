@@ -1,0 +1,7 @@
+<h1 mat-dialog-title>{{data.title}}</h1>
+<div mat-dialog-content>
+  <p *ngFor="let row of data.content">{{row}}</p>
+</div>
+<div mat-dialog-actions>
+  <button mat-button [mat-dialog-close]="data.title" (click)="close()" cdkFocusInitial>Close</button>
+</div>

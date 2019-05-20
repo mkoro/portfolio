@@ -1,0 +1,25 @@
+@mixin transition($dur: 0.1s) {
+    -webkit-transition: $dur;
+    -moz-transition:    $dur;
+    -ms-transition:     $dur;
+    -o-transition:      $dur;
+    transition:         $dur;
+}
+
+mat-nav-list {
+    background-color: #eee;
+    box-sizing: border-box;
+    height: 100%;
+    width: 250px;
+}
+
+a {
+    @include transition();
+    &:hover {
+        @include transition();
+        background-color: #ccc;
+    }
+    &.router-active {
+        background-color: #ddd;
+    }
+}

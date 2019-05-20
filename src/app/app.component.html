@@ -1,0 +1,9 @@
+<sp-top-bar [toggleSideNav]="toggleSideNav"></sp-top-bar>
+<mat-sidenav-container>
+  <mat-sidenav mode="side" [(opened)]="sideNavOpen">
+    <sp-left-bar></sp-left-bar>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

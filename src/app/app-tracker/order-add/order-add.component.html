@@ -1,0 +1,27 @@
+<h2>Add New Order</h2>
+<div class="order-add-container">
+<mat-form-field appearance="outline" class="short-control with-hint">
+  <mat-label>Order ID</mat-label>
+  <input matInput name="orderId" [formControl]="formControls.orderId" required>
+  <mat-error *ngIf="formControls.orderId.errors?.required">This is a required field</mat-error>
+  <mat-error *ngIf="formControls.orderId.errors?.idAlreadyExists">This order ID already exists</mat-error>
+</mat-form-field>
+<mat-radio-group name="prodType" (change)="handleTypeSelect($event)">
+  <mat-radio-button [value]="Product.a" [checked]="selectedProduct == Product.a" style="margin-right: 25px">{{Product.a}}</mat-radio-button>
+  <mat-radio-button [value]="Product.b" [checked]="selectedProduct == Product.b" style="margin-right: 25px">{{Product.b}}</mat-radio-button>
+</mat-radio-group>
+<mat-form-field appearance="outline" class="short-control with-hint">
+  <mat-label>Order value (in EUR)</mat-label>
+  <input matInput name="orderValue" [formControl]="formControls.orderValue" required>
+  <mat-error *ngIf="formControls.orderValue.errors?.required">This is a required field</mat-error>
+  <mat-error *ngIf="formControls.orderValue.errors?.pattern">Enter numbers only</mat-error>
+</mat-form-field>
+<div class="button-container">
+  <button mat-raised-button color="primary" type="button" (click)="doneButton()" [disabled]="shouldDisableButton()" class="add-button">
+    ADD ORDER
+  </button>
+  <button mat-raised-button color="primary" type="button" (click)="cancelButton()" class="cancel-button">
+    CANCEL
+  </button>
+</div>
+</div>

@@ -1,0 +1,61 @@
+$controlSpacing: 10px;
+
+@mixin mobile {
+    @media (max-width: 570px) {
+        @content;
+    }
+}
+
+.short-control {
+    margin-top: $controlSpacing;
+    width: 400px;
+    @include mobile {
+        width: 90%;
+    }
+}
+
+.button-container {
+  margin-top: $controlSpacing;
+  display: flex;
+  @include mobile {
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+  }
+}
+
+.add-button {
+    width: 150px;
+    @include mobile {
+        width: 90%;
+    }
+}
+.cancel-button {
+    margin-left: $controlSpacing;
+    background-color: #444;
+    width: 150px;
+    @include mobile {
+        width: 90%;
+        margin-left: 0;
+    }
+}
+
+.with-hint {
+    margin-bottom: $controlSpacing;
+}
+
+.long-control {
+    margin-top: $controlSpacing;
+    width: 75%;
+    @include mobile {
+        width: 90%;
+    }
+}
+
+.order-add-container {
+  display: flex;
+  flex-direction: column;
+  @include mobile {
+    align-items: center;
+  }
+}

@@ -1,0 +1,62 @@
+<div id="card-wrapper" [ngClass]="{ 'thin': thinMode }">
+  <mat-card class="card-title">
+    <div style="padding-top: 2px">Achievement Tracker</div>
+    <button type="button" mat-icon-button matTooltip="What is this?" (click)="showAppInfo()">
+      <mat-icon style="padding-bottom: 5px">help</mat-icon>
+    </button>
+  </mat-card>
+  <mat-card>
+    <mat-card-content>
+      <gauge [firstValue]="productASum" [secondValue]="productBSum"></gauge>
+      <div *ngIf="!entryList.length">
+        <mat-spinner [diameter]="32"></mat-spinner>
+      </div>
+      <order-detail
+        *ngIf="entryList.length && viewMode == 1"
+        [callback]="orderDetailCallback"
+        [order]="orderForDetail"
+      ></order-detail>
+      <order-add
+        *ngIf="entryList.length && viewMode == 2"
+        [callback]="orderAddCallback"
+        [currentOrders]="entryList"
+      ></order-add>
+      <div [ngStyle]="entryList.length && viewMode == 0 ? {display: 'inherit'} : {display: 'none'}">
+        <table mat-table [dataSource]="dataSource" class="orders-table">
+          <ng-container matColumnDef="orderId">
+            <th mat-header-cell *matHeaderCellDef> Order ID </th>
+            <td mat-cell *matCellDef="let element"> {{element.orderId}} </td>
+          </ng-container>
+          <ng-container matColumnDef="orderValue">
+            <th mat-header-cell *matHeaderCellDef> Order Value </th>
+            <td mat-cell *matCellDef="let element"> {{element.value}} </td>
+          </ng-container>
+          <ng-container matColumnDef="product">
+            <th mat-header-cell *matHeaderCellDef> Product </th>
+            <td mat-cell *matCellDef="let element"> {{element.product}} </td>
+          </ng-container>
+          <ng-container matColumnDef="delBut">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let element" class="delete-cell">
+                <button type="button" mat-icon-button (click)="deleteOrderEntry(element.orderId)">
+                  <i class="material-icons" style="margin-bottom: 3px;color: rgba(0,0,0,.54)">delete</i>
+                </button>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr
+          mat-row
+          *matRowDef="let row; columns: displayedColumns;"
+          style="cursor: pointer"
+          (click)="loadOrderData($event, row)"
+          ></tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 50]" showFirstLastButtons></mat-paginator>
+        <button type="button" mat-raised-button color="primary" (click)="addButton()">
+          <mat-icon style="padding-bottom: 5px">add</mat-icon>
+          &nbsp;ADD NEW ORDER
+        </button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

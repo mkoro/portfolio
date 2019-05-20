@@ -1,0 +1,131 @@
+$controlSpacing: 10px;
+
+@mixin mobile {
+    @media (max-width: 970px) {
+        @content;
+    }
+}
+
+#card-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+mat-card {
+    width: 900px;
+    border-radius: 0 0 4px 4px;
+    flex: 0 0 auto;
+    @include mobile {
+        width: calc(100% - 40px);
+    }
+}
+
+#card-wrapper.thin mat-card {
+    width: calc(100% - 40px);
+}
+
+.card-title {
+    background-color:brown;
+    color: white;
+    font-size: 1.5em;
+    border-radius: 4px 4px 0 0;
+    display: flex;
+}
+
+.orders-table {
+    width: 100%
+}
+
+.delete-cell {
+    text-align: right;
+}
+
+.inline-control-title {
+    padding-left: $controlSpacing;
+}
+
+.import-button {
+    margin-right: 25px;
+    @include mobile {
+        margin: 10px 0;
+    }
+}
+
+.customer-control-list {
+    display: flex;
+    margin: 25px 0;
+    @include mobile {
+        flex-direction: column
+    }
+}
+
+.control-list {
+    margin-top: $controlSpacing * 3;
+    display: flex;
+    flex-direction: column;
+}
+
+.short-control {
+    margin-top: $controlSpacing;
+    width: 400px;
+    @include mobile {
+        width: 90%;
+    }
+}
+
+.with-hint {
+    margin-bottom: $controlSpacing;
+}
+
+.long-control {
+    margin-top: $controlSpacing;
+    width: 75%;
+    @include mobile {
+        width: 90%;
+    }
+}
+
+.checkbox-list {
+    display: flex;
+    direction: row;
+    justify-content: space-evenly;
+    max-width: 75%;
+    margin-bottom: $controlSpacing * 2;
+    padding-left: $controlSpacing;
+    @include mobile {
+        flex-direction: column;
+    }
+}
+
+.send-button {
+    background-color: #a60000;
+    width: 125px;
+    height: 50px;
+}
+
+.send-info {
+    color: #a60000;
+    margin: 5px 0px 0px 10px;
+}
+
+.iconReverse {
+    /* Safari */
+    -webkit-transform: rotate(180deg);
+
+    /* Firefox */
+    -moz-transform: rotate(180deg);
+
+    /* IE */
+    -ms-transform: rotate(180deg);
+
+    /* Opera */
+    -o-transform: rotate(180deg);
+
+    transform: rotate(180deg);
+
+    /* Internet Explorer */
+    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2);
+}

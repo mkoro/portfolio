@@ -1,0 +1,173 @@
+<input type="file" id="files" name="files" style="display: none" (change)="handleFileSelect($event)"/>
+<div id="card-wrapper">
+  <mat-card class="card-title">
+    <div style="padding-top: 2px">Comms Tool</div>
+    <button type="button" mat-icon-button matTooltip="What is this?" (click)="showAppInfo()">
+      <mat-icon style="padding-bottom: 5px">help</mat-icon>
+    </button>
+  </mat-card>
+  <mat-card>
+    <mat-card-content>
+      <div>
+        <p>Select notification type:</p>
+        <div style="margin: 25px 0">
+            <mat-radio-group id="commstype" name="commstype" (change)="handleTypeSelect($event)">
+              <mat-radio-button value="0" [checked]="commsType == 0" style="margin-right: 25px">Notification Type A</mat-radio-button>
+              <mat-radio-button value="1" [checked]="commsType == 1" style="margin-right: 25px">Notification Type B</mat-radio-button>
+              <mat-radio-button value="2" [checked]="commsType == 2" style="margin-right: 25px">Notification Type C</mat-radio-button>
+              <mat-radio-button value="3" [checked]="commsType == 3" style="margin-right: 25px">Notification Type D</mat-radio-button>
+            </mat-radio-group>
+        </div>
+      </div>
+      <p style="margin-top: 40px">Select customers to notify:</p>
+      <div class="customer-control-list">
+        <div style="display: flex; justify-content: center">
+          <select (dblclick)="addCustomersFromList()" name="customerSelect" id="customerSelect" multiple size="15" style="width: 340px">
+            <option *ngFor="let customer of customers" [value]="escape(customer.name)">{{customer.name}}</option>
+          </select>
+        </div>
+        <div style="margin: 0 25px">
+          <div style="display: flex; flex-direction: column">
+            <button type="button" mat-raised-button color="primary" (click)="addCustomersFromList()" style="margin-top: 15px; margin-bottom: 25px">
+              <i class="material-icons" style="margin-bottom: 3px">forward</i>
+              &nbsp;Add
+            </button>
+            <button type="button" mat-raised-button color="primary" (click)="removeSelectedCustomers()" style="margin-bottom:35px">
+              <i class="material-icons iconReverse" style="margin-bottom: 3px">forward</i>
+              &nbsp;Remove
+            </button>
+            <button type="button" mat-raised-button color="primary" (click)="addAll()" style="margin-bottom: 25px; background-color: #00a600">
+              <i class="material-icons" style="margin-bottom: 3px">forward</i>
+              <i class="material-icons" style="margin-bottom: 3px">forward</i>
+              &nbsp;Add All
+            </button>
+            <button type="button" mat-raised-button color="primary" (click)="removeAll()" style="margin-bottom:25px; background-color: #a60000">
+              <i class="material-icons iconReverse" style="margin-bottom: 3px">forward</i>
+              <i class="material-icons iconReverse" style="margin-bottom: 3px">forward</i>
+              &nbsp;Remove All
+            </button>
+          </div>
+        </div>
+        <div style="display: flex; justify-content: center">
+          <select name="selectedDisplay" id="selectedDisplay" multiple size="15" style="width: 340px">
+            <option *ngFor="let customer of selectedCustomers" [value]="escape(customer.name)">{{customer.name}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="inline-control-title" style="margin-bottom: 40px">
+        <button type="button" mat-raised-button color="primary" (click)="importFile()" class="import-button">
+          <i class="material-icons" style="margin-bottom: 3px">cloud_upload</i>
+          &nbsp;Import Selected Customers
+        </button>
+        <button type="button" mat-raised-button color="primary" (click)="exportFile()" class="import-button">
+          <i class="material-icons" style="margin-bottom: 3px">cloud_download</i>
+          &nbsp;Export Selected Customers
+        </button>
+      </div>
+      <div class="control-list">
+        <div>
+          <p class="inline-control-title">Service(s) impacted:</p>
+          <div class="checkbox-list">
+            <mat-checkbox
+              *ngFor="let service of serviceList; let i = index"
+              [name]="service"
+              [(ngModel)]="formControls.serviceCheckboxes[i]"
+              class="short-control"
+            >
+              {{service}}
+            </mat-checkbox>
+          </div>
+        </div>
+        <mat-form-field appearance="outline" class="short-control">
+          <mat-label>Priority</mat-label>
+          <mat-select name="priority" [formControl]="formControls.priorityControl" required>
+            <mat-option *ngFor="let prio of priorityList" [value]="prio">
+              {{prio}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="formControls.priorityControl.errors?.required">This is a required selection</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="short-control">
+          <mat-label>Communication Reference ID</mat-label>
+          <input matInput name="comRef" [formControl]="formControls.comRefControl" required>
+          <mat-error *ngIf="formControls.comRefControl.errors?.required">This is a required field</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="short-control with-hint" *ngIf="commsType == 0">
+          <mat-label>Dynamic Field A</mat-label>
+          <input matInput name="dynA" [formControl]="formControls.dynamicControl">
+          <mat-hint>This field is only displayed if Notification Type A is selected.</mat-hint>
+        </mat-form-field>
+        <!--div>
+          <mat-form-field style="margin-right: 25px">
+            <input matInput [matDatepicker]="pickerStart" placeholder="Incident Start Date (UTC)" readonly="true" name="incStartDate">
+            <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
+            <mat-datepicker #pickerStart></mat-datepicker>
+          </mat-form-field>
+        </div-->
+        <mat-form-field appearance="outline" class="long-control">
+          <mat-label>Notification Summary</mat-label>
+          <textarea
+            matInput
+            rows="8"
+            name="sumField"
+            [formControl]="formControls.summaryControl"
+            placeholder="Please put high-level summary of the notification here"
+          ></textarea>
+        </mat-form-field>
+        <div style="display: flex">
+          <button type="button" mat-raised-button color="primary" (click)="send()" class="send-button">
+            <i class="material-icons" style="margin-bottom: 3px">send</i>
+            &nbsp;Send
+          </button>
+          <button type="button" mat-icon-button color="primary" matTooltip="What is this?" class="send-info" (click)="showSendInfo()">
+            <mat-icon style="padding-bottom: 5px">help_outline</mat-icon>
+          </button>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  <div style="margin-top: 50px">
+    <mat-toolbar color="primary" class="card-title" style="background-color: #666 !important">
+      Previous entries (click to load)
+    </mat-toolbar>
+    <mat-card class="mat-card">
+      <mat-card-content>
+        <div *ngIf="!entryList.length">
+          <mat-spinner [diameter]="32"></mat-spinner>
+        </div>
+        <div *ngIf="entryList.length">
+          <table mat-table [dataSource]="dataSource" class="history-table">
+            <ng-container matColumnDef="comRef">
+              <th mat-header-cell *matHeaderCellDef> Comms Reference </th>
+              <td mat-cell *matCellDef="let element" [attr.name]="element.uniqueId"> {{element.formControls.comRefControl}} </td>
+            </ng-container>
+            <ng-container matColumnDef="commsType">
+              <th mat-header-cell *matHeaderCellDef> Notification Type </th>
+              <td mat-cell *matCellDef="let element"> {{commsTypeHelper(element.commsType)}} </td>
+            </ng-container>
+            <ng-container matColumnDef="priority">
+              <th mat-header-cell *matHeaderCellDef> Priority </th>
+              <td mat-cell *matCellDef="let element"> {{element.formControls.priorityControl}} </td>
+            </ng-container>
+            <ng-container matColumnDef="delBut">
+              <th mat-header-cell *matHeaderCellDef></th>
+              <td mat-cell *matCellDef="let element" class="delete-cell">
+                  <button type="button" mat-icon-button (click)="deleteHistoryEntry($event, element.uniqueId)">
+                    <i class="material-icons" style="margin-bottom: 3px;color: rgba(0,0,0,.54)">delete</i>
+                  </button>
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr
+            mat-row
+            *matRowDef="let row; columns: displayedColumns;"
+            style="cursor: pointer"
+            (click)="loadFormData(row)"
+            ></tr>
+          </table>
+          <mat-paginator [pageSizeOptions]="[10, 25, 50]" showFirstLastButtons></mat-paginator>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

@@ -1,0 +1,29 @@
+@mixin mobile {
+    @media (max-width: 590px) {
+        @content;
+    }
+}
+
+.gauge-wrapper {
+  display: flex;
+  justify-content: space-around;
+  @include mobile {
+    flex-direction: column;
+    align-items: center;  
+  }
+}
+
+.gauge-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.gauge-title {
+  text-align: center;
+}
+
+canvas {
+  @include mobile {
+    width: 300px;
+  }
+}

@@ -1,0 +1,94 @@
+$controlSpacing: 10px;
+
+@mixin mobile {
+    @media (max-width: 570px) {
+        @content;
+    }
+}
+
+.short-control {
+    margin-top: $controlSpacing;
+    width: 400px;
+    @include mobile {
+        width: 90%;
+    }
+}
+
+.back-button {
+    margin-top: $controlSpacing;
+    width: 300px;
+    @include mobile {
+        width: auto;
+    }
+}
+
+.with-hint {
+    margin-bottom: $controlSpacing;
+}
+
+.long-control {
+    margin-top: $controlSpacing;
+    width: 75%;
+    @include mobile {
+        width: 90%;
+    }
+}
+
+.order-detail-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.order-table {
+    width: 100%
+}
+
+.attachment-table {
+    width: 300px;
+}
+
+.delete-cell {
+    text-align: right;
+}
+
+.comment-container {
+  display: flex;
+  flex-direction: column;
+  width: 500px;
+  margin-bottom: $controlSpacing * 2;
+  border-bottom: solid 1px rgba(0,0,0,0.12);
+  @include mobile {
+    width: 100%;
+  }
+}
+
+.comment-box-container {
+  display: flex;
+  flex-direction: column;
+  width: 500px;
+  margin-bottom: $controlSpacing * 2;
+  margin-top: $controlSpacing;
+  @include mobile {
+    width: 100%;
+  }
+}
+
+.submit-button {
+    margin-top: $controlSpacing;
+    background-color: brown;
+    width: 150px;
+}
+
+
+.comment {
+  width: 100%;
+  padding-bottom: 5px;
+}
+
+.comment-detail-container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  font-size: 0.8em;
+  color: #999;
+}
