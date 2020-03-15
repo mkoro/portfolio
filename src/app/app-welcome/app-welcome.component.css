@@ -5,3 +5,13 @@ h4 {
 div {
   margin: 20px;
 }
+
+.icon {
+  font-weight: bold;
+  border: 1px solid black;
+  border-radius: 20px;
+  width: 20px;
+  display: inline-block;
+  text-align: center;
+  box-sizing: border-box;
+}
